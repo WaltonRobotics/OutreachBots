@@ -20,14 +20,33 @@ public class ForwardForFeet extends Command implements AutoCommand{
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.driveTrain.set(1, 1);
+		//makes the robot end up parallel to it's start position
+		if(!isFinishedLeft())
+		{
+			if(!isFinishedRight())
+				Robot.driveTrain.set(1, 1);
+			else
+				Robot.driveTrain.set(1,0);
+		}
+		else if(!isFinishedRight())
+			Robot.driveTrain.set(0, 1);
+			
 	}
 
 
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return Robot.driveTrain.getDistanceTravelled()>=feetToTravel*12;
+		return isFinishedLeft() && isFinishedRight();
+	}
+	protected boolean isFinishedLeft()
+	{
+		return Robot.driveTrain.getDistanceTravelledLeft()>=feetToTravel*12;
+	}
+	
+	protected boolean isFinishedRight()
+	{
+		return Robot.driveTrain.getDistanceTravelledRight()>=feetToTravel*12;
 	}
 
 	boolean isDead=false;
